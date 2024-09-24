@@ -13,11 +13,11 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_product');
     }
 
-    public function images()
+    public function product_images()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class, 'product_id');
     }
 }
