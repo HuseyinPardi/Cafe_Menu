@@ -14,11 +14,17 @@ Categories Index
                     <div class="border rounded p-3" style="width: 300px;">
                         <img src="{{$category->image}}" alt="{{$category->name}}" class="img-fluid" style="width: 300px; height: 300px; object-fit: cover;">
                         <h3 class="text-center">{{$category->name}}</h3>
-                        <div style="text-align: center;">
-                            <a href="{{route('cafe.products', [
-                            'first_name' => $category->user ? $category->user->cafe_slug : 'default_name' , 
-                            'category_name' => $category->slug])}}" class="btn btn-primary">see more</a>
-                        </div>
+                        @auth
+                            <div style="text-align: center;">
+                                <a href="{{route('cafe.products', [
+                                'first_name' => $user ? $user->cafe_slug : 'default_name' , 
+                                'category_name' => $category ? $category->slug : 'deafult_category'])}}" class="btn btn-primary">see more</a>
+                            </div>
+                        @endauth
+
+                        @guest
+                            <p>If you want to see more, <a href="{{route('login')}}">Log In</a> or <a href="{{route('register')}}">Register</a></p>
+                        @endguest
                     </div>
                 @endforeach
             </div>

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'name', 'slug', 'image'];
+    protected $fillable = ['name', 'slug', 'image'];
 
     public function products()
     {
@@ -17,6 +17,6 @@ class Category extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class); // User ilişkisini de tanımlıyoruz
+        return $this->belongsTo(User::class, 'user_category');
     }
 }

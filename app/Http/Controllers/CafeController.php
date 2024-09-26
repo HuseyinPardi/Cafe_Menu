@@ -11,10 +11,14 @@ use App\Models\Product;
 
 class CafeController extends Controller
 {
-    public function showCategories()
+    public function showCategories($user_slug)
     {
-        $categories = Category::latest()->paginate(10);
-        return view('dashboard.categories.index', compact('categories'));
+        $user = User::where('cafe_slug', $user_slug)->first();
+        if (!$user) {
+            dd('Böyle bir kullanıcı yok!');
+        }
+        $categories = $user->categories()->latest()->paginate(10);
+        return view('dashboard.categories.index', compact('categories', 'user'));
     }
 
     public function showProducts($user_slug, $category_slug)
