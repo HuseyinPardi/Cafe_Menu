@@ -38,14 +38,8 @@
           </li>
         </ul>
         <div class="ms-auto">
-            <form action="{{ route('register') }}" method="GET" style="display: inline;">
-              @csrf
-              <button class="auth-button" type="submit">Kayıt Ol</button>
-            </form>
-            <form action="{{ route('login') }}" method="GET" style="display: inline;">
-              @csrf
-              <button  class="auth-button" type="submit">Giriş Yap</button>
-            </form>
+            <a href="{{ route('register') }}" class="btn btn-success" style="display: inline;">Kayıt Ol</a>
+            <a href="{{ route('login') }}" class="btn btn-primary" style="display: inline;">Giriş Yap</a>
         </div>
       </div>
     </div>

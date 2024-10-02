@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    @vite('resources/js/app.js') <!-- Vite ile Vue uygulamasını dahil ediyoruz -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    @vite('resources/js/app.js') <!-- Vite ile Vue kullanımı için -->
 </head>
-<body>
+<body id="admin-blade">
     <div id="app">
-        <!-- Vue'nun yüklenip sayfaları göstermesini bekliyoruz -->
+        <!-- Vue'nun yüklendiği sayfa-->
         <router-view></router-view>
     </div>
 </body>

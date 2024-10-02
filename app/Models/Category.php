@@ -15,8 +15,8 @@ class Category extends Model
         return $this->belongsToMany(Product::class, 'category_product');
     }
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class, 'user_category');
+        return $this->belongsToMany(User::class, 'user_category');
     }
 }
