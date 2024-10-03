@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary py-4">
+<nav class="navbar navbar-expand-lg custom-navbar py-4">
   @auth
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Kafe Sistemi</a>
+      <a class="navbar-brand" href="{{url('/')}}">Kafe Sistemi</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -19,7 +19,7 @@
         </ul>
           <form action="{{ route('logout') }}" method="POST" class="ms-auto" style="display: inline;">
             @csrf
-            <button type="submit" class="auth-button">Çıkış Yap</button>
+            <button type="submit" class="auth-btn">Çıkış Yap</button>
         </form>
       </div>
     </div>
@@ -27,7 +27,7 @@
 
   @guest
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Kafe Sistemi</a>
+      <a class="navbar-brand" href="{{url('/')}}">Kafe Sistemi</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -37,9 +37,9 @@
             <a class="nav-link active" aria-current="page" href="{{url('/')}}">Ana Sayfa</a>
           </li>
         </ul>
-        <div class="ms-auto">
-            <a href="{{ route('register') }}" class="btn btn-success" style="display: inline;">Kayıt Ol</a>
-            <a href="{{ route('login') }}" class="btn btn-primary" style="display: inline;">Giriş Yap</a>
+        <div class="auth-buttons">
+            <a href="{{ route('register') }}" class="auth-btn">Kayıt Ol</a>
+            <a href="{{ route('login') }}" class="auth-btn">Giriş Yap</a>
         </div>
       </div>
     </div>

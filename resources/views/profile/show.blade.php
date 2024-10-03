@@ -8,7 +8,7 @@ Profile
 
 
 @section('content')
-    <div class="container py-5">
+    <div class="container py-5" style="width: 100%; height: 100vh;">
         <div class="row">
             <div class="col-lg-4 col-md-5 mb-4">
                 <!-- Profil Fotoğrafı -->

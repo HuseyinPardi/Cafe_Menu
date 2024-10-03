@@ -20,6 +20,6 @@ class AdminIs
             return $next($request);
         }
 
-        return redirect('/')->with('error', 'Bu sayfaya erişiminiz yok.');
+        return redirect('/')->with('error', 'Bu sayfaya sadece yönetici erişebilir.');
     }
 }

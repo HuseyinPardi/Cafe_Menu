@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware(['auth', AdminIs::class])->group(function () {
-    Route::get('/admin/{any?}', function ($any = null) {
-        return view('admin');
-    })->where('any', '.*?');
-});
+
 
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
@@ -29,6 +25,17 @@ Route::view('/', 'welcome')->name('welcome');
 
 
 
+Route::middleware(['auth', AdminIs::class])->group(function () {
+    Route::get('/admin/{any?}', function ($any = null) {
+        return view('admin');
+    })->where('any', '.*?');
+
+    Route::post('/logout', [UserController::class, 'logoutAdmin']);
+
+});
+
+
+
 
 
 Route::middleware("auth")->group(function () {
@@ -41,6 +48,5 @@ Route::middleware("auth")->group(function () {
 
 
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-
 
 });

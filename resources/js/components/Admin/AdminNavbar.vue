@@ -24,7 +24,7 @@
         </ul>
         <div class="user-info">
             <span>Admin</span>
-            <button class="logout" @click="logout()">Çıkış</button>
+            <button class="logout" @click="logout()">Admin Panelden Çık</button>
         </div>
     </nav>
 </template>
@@ -32,12 +32,10 @@
 <script setup>
 import axios from "axios";
 import { useRouter } from "vue-router";
-
 const router = useRouter();
-
 const logout = async () => {
     try {
-        const response = await axios.post("/api/logout");
+        const response = await axios.post("/logout");
         console.log(response.data.message);
         window.location.href = "/";
     } catch (error) {

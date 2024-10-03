@@ -1,3 +1,55 @@
 #admin-blade {
     margin: 0px 0px 0px 0px;
 }
+
+html {
+    min-height: 100vh !important;
+    margin: 0 !important;
+}
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.btn {
+    padding: 10px;
+    border-radius: 25px;
+}
+
+.form-control::placeholder {
+    color: #d0d0d0;
+    opacity: 1;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+    margin-right: 0;
+    margin-right: 10px;
+}
+
+.auth-btn {
+    background-color: #ecf2ff;
+    padding: 7px;
+    border-radius: 3px;
+    text-decoration: none;
+    color: black;
+}
+
+.auth-btn:hover {
+    background-color: #3e54ac;
+}
+
+.custom-navbar {
+    background-color: #7fa1c3;
+}
+
+.custom-footer {
+    background-color: #7fa1c3;
+}

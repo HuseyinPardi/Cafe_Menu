@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Middleware\AdminIs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+
+
+
 
 /*Kategorilerin HTTP istekleri */
 Route::get('/categories', [CategoryController::class, 'index']);
@@ -24,6 +28,12 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 Route::post('/users', [UserController::class, 'store']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+
+
+
+
+
 
 
 

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 
 class UserController extends Controller
 {
@@ -80,10 +81,7 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Kullanıcı bulunamadı'], 404);
         }
-
-
         $user->delete();
-
         return response()->json(['message' => 'Kullanıcı başarıyla silindi.']);
     }
     public function login()
@@ -93,8 +91,6 @@ class UserController extends Controller
 
     public function loginPost(Request $request)
     {
-
-
         $request->validate([
             "email" => "required",
             "password" => "required",
@@ -152,6 +148,14 @@ class UserController extends Controller
         return redirect()->route('welcome');
     }
 
+    public function logoutAdmin(Request $request)
+    {
+
+        Auth::logout();
+        return response()->json([
+            'message' => 'Başarıyla çıkış yapıldı'
+        ], 200);
+    }
 
 
 }
