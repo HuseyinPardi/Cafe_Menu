@@ -41,7 +41,7 @@ Register Page
         </div>
     </div>
     <div class="text-center mt-3">
-        <p>Zaten bir hesabınız var mı? <a href="{{ route('login') }}">Giriş yapın</a></p>
+        <p>Zaten bir hesabınız var mı? <a href="{{ route('login') }}" style="text-decoration: none;">Giriş yapın</a></p>
     </div>
 </div>
 @endsection

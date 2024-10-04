@@ -25,7 +25,7 @@ Login Page
             </div>
         </div>
         <div class="text-center mt-3">
-            <p>Hesabınız yok mu? <a href="{{ route('register') }}">Kayıt olun</a></p>
+            <p>Hesabınız yok mu? <a href="{{ route('register') }}" style="text-decoration: none;">Kayıt olun</a></p>
         </div>
     </div>
 @endsection

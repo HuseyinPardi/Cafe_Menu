@@ -8,7 +8,7 @@
                 class="category-item"
             >
                 <span class="category-id">{{ category.id }}.</span>
-                <!-- ID'yi başta gösteriyoruz -->
+
                 <span class="category-name">{{ category.name }}</span>
                 <div class="category-actions">
                     <button
@@ -70,7 +70,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Genel kapsayıcı */
 .categories-container {
     max-width: 600px;
     margin: 20px auto;
@@ -80,7 +79,6 @@ onMounted(() => {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Başlık stili */
 .categories-title {
     font-size: 24px;
     font-weight: bold;
@@ -89,14 +87,12 @@ onMounted(() => {
     color: #333;
 }
 
-/* Kategorilerin listesi */
 .categories-list {
-    list-style-type: none; /* Sıralı liste olmadan */
+    list-style-type: none;
     padding-left: 0;
     margin: 0;
 }
 
-/* Tek tek kategori elemanları */
 .category-item {
     display: flex;
     justify-content: space-between;
@@ -116,24 +112,20 @@ onMounted(() => {
     transform: translateX(5px);
 }
 
-/* Kategori ID'sini temsil eden stil */
 .category-id {
     font-weight: bold;
     margin-right: 10px;
 }
 
-/* Kategori ismi */
 .category-name {
-    flex-grow: 1; /* Kategori isminin genişlemesini sağlıyor */
+    flex-grow: 1;
 }
 
-/* Düzenleme ve silme butonları için aksiyon kısmı */
 .category-actions {
     display: flex;
-    gap: 10px; /* Butonlar arasında boşluk */
+    gap: 10px;
 }
 
-/* Edit butonu */
 .edit-button {
     background-color: #4caf50;
     color: white;
@@ -162,7 +154,6 @@ onMounted(() => {
     background-color: blue;
 }
 
-/* Delete butonu */
 .delete-button {
     background-color: #f44336;
     color: white;

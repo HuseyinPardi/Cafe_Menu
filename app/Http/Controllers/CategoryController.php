@@ -17,13 +17,14 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'image' => 'required',
             'user_id' => 'required|exists:users,id'
         ]);
 
         $category = Category::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'image' => null
+            'image' => $request->image,
         ]);
         $category->users()->attach($request->user_id);
         return response()->json($category, 201);

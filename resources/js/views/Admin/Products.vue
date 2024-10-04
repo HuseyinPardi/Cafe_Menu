@@ -79,7 +79,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Genel kapsayıcı */
 .products-container {
     max-width: 600px;
     margin: 20px auto;
@@ -89,7 +88,6 @@ onMounted(() => {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Başlık stili */
 .products-title {
     font-size: 24px;
     font-weight: bold;
@@ -98,14 +96,12 @@ onMounted(() => {
     color: #333;
 }
 
-/* Kategorilerin listesi */
 .products-list {
     list-style-type: none;
     padding-left: 0;
     margin: 0;
 }
 
-/* Tek tek kategori elemanları */
 .product-item {
     display: flex;
     justify-content: space-between;
@@ -125,24 +121,20 @@ onMounted(() => {
     transform: translateX(5px);
 }
 
-/* Kategori ID'sini temsil eden stil */
 .product-id {
     font-weight: bold;
     margin-right: 10px;
 }
 
-/* Kategori ismi */
 .product-name {
-    flex-grow: 1; /* Kategori isminin genişlemesini sağlıyor */
+    flex-grow: 1;
 }
 
-/* Düzenleme ve silme butonları için aksiyon kısmı */
 .product-actions {
     display: flex;
     gap: 10px;
 }
 
-/* Edit butonu */
 .edit-button {
     background-color: #4caf50;
     color: white;
@@ -170,7 +162,6 @@ onMounted(() => {
     background-color: blue;
 }
 
-/* Delete butonu */
 .delete-button {
     background-color: #f44336;
     color: white;

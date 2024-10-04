@@ -4,7 +4,7 @@
         <ul class="users-list">
             <li v-for="user in users" :key="user.id" class="user-item">
                 <span class="user-id">{{ user.id }}.</span>
-                <!-- ID'yi başta gösteriyoruz -->
+
                 <span class="user-name">{{ user.cafe_name }}</span>
                 <div class="user-actions">
                     <button class="edit-button" @click="editUser(user.id)">

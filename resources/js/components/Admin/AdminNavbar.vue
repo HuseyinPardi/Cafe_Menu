@@ -80,7 +80,7 @@ const logout = async () => {
 }
 
 .nav-links li a:hover {
-    color: #ffcc00; /* Hover rengi */
+    color: #ffcc00;
 }
 
 .user-info {

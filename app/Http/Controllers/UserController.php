@@ -14,7 +14,6 @@ class UserController extends Controller
 
     public function index()
     {
-        //$users = User::all();
         $users = User::where('cafe_name', '!=', 'admin')->get();
         return response()->json($users);
     }
@@ -33,12 +32,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "first_name" => "required",
-            "last_name" => "required",
-            "email" => "required",
-            "phone_number" => "required",
-            "cafe_name" => "required",
-            "password" => "required"
+            "first_name" => "required|string|max:255",
+            "last_name" => "required|string|max:255",
+            "email" => "required|email|unique:users,email",
+            "phone_number" => "required|numeric|digits:10",
+            "cafe_name" => "required|string|max:255",
+            "password" => "required|string|min:8"
         ]);
 
         $user = User::create([
@@ -134,7 +133,19 @@ class UserController extends Controller
         ]);
 
         if ($user->save()) {
-            return redirect(route("login"))->with("success", "User created succesfully");
+
+            $credentials = $request->only("email", "password");
+
+            if (Auth::attempt($credentials)) {
+
+                $cafe_slug = Auth::user()->cafe_slug;
+
+                return redirect()->intended(route("cafe.categories", [
+                    'first_name' => $cafe_slug,
+                ]));
+            }
+
+            return redirect(route("login"))->with("error", "Login failed");
         }
 
         return redirect(route("register"))->with("error", "Failed to create account");
@@ -148,7 +159,7 @@ class UserController extends Controller
         return redirect()->route('welcome');
     }
 
-    public function logoutAdmin(Request $request)
+    public function logoutAdmin()
     {
 
         Auth::logout();

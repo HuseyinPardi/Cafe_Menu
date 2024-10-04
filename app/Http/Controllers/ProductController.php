@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use App\Models\ProductImage;
 class ProductController extends Controller
 {
     public function index()
@@ -13,13 +14,15 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-    public function show($id)
+    public function show($id /*Product $product*/)
     {
-        $product = Product::find($id);
+        $product = Product::with('images')->find($id); // images ilişkisini ekledik
 
         if (!$product) {
             return response()->json(['message' => 'Ürün bulunamadı'], 404);
         }
+
+        // $product->with('images');
 
         return response()->json($product);
     }
@@ -43,6 +46,19 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
+    public function storeImage($id, Request $request)
+    {
+        $request->validate([
+            'image_path' => 'required',
+        ]);
+
+        ProductImage::create([
+            'product_id' => $id,
+            'image_path' => $request->image_path,
+        ]);
+
+        return response()->json(['message' => 'Resim başarıyla eklendi.'], 201);
+    }
 
     public function update(Request $request, $id)
     {
@@ -58,6 +74,16 @@ class ProductController extends Controller
         $product->price = $request->input('price');
         $product->description = $request->input('description');
         $product->price = $request->input('price');
+
+
+        if ($request->has('image_paths')) {
+
+            $product->images()->delete();
+
+            foreach ($request->input('image_paths') as $imagePath) {
+                $product->images()->create(['image_path' => $imagePath]);
+            }
+        }
 
         $product->save();
 

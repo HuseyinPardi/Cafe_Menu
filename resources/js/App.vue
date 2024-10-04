@@ -7,4 +7,8 @@
 import AdminNavbar from "./components/Admin/AdminNavbar.vue";
 </script>
 
-<style scoped></style>
+<style scoped>
+* {
+    font-family: "Lora", serif !important;
+}
+</style>

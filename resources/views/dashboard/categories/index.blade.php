@@ -11,7 +11,7 @@ Categories Index
     <div class="container">          
             <div class="d-flex justify-content-center flex-wrap" style="gap: 30px; margin: 40px;">
                 @foreach ($categories as $category)
-                    <div class="border rounded p-3" style="width: 300px;">
+                    <div class="border rounded p-3" style="width: 300px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
                         <img src="{{$category->image}}" alt="{{$category->name}}" class="img-fluid" style="width: 300px; height: 300px; object-fit: cover;">
                         <h3 class="text-center">{{$category->name}}</h3>
                         @auth

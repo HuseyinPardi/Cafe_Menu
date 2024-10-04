@@ -20,7 +20,9 @@
   
     @include('layouts.navbar')
   
-    @yield('content')
+    <div id="content">
+        @yield('content')
+    </div>
     
     @include('layouts.footer')
 

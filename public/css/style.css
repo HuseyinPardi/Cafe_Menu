@@ -2,10 +2,36 @@
     margin: 0px 0px 0px 0px;
 }
 
-html {
-    min-height: 100vh !important;
-    margin: 0 !important;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-family: "Lora", serif !important;
 }
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#content {
+    flex: 1;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .card {
     border: none;
     border-radius: 10px;
@@ -51,5 +77,6 @@ html {
 }
 
 .custom-footer {
+    margin-top: auto;
     background-color: #7fa1c3;
 }
