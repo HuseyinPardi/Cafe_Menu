@@ -2,170 +2,55 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Logger\ConsoleLogger;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(): JsonResponse
     {
         $users = User::where('cafe_name', '!=', 'admin')->get();
         return response()->json($users);
     }
 
-    public function show($id)
+    public function show(User $user): JsonResponse
     {
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json(['message' => 'Kullanıcı bulunamadı'], 404);
-        }
-
         return response()->json($user);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request): JsonResponse
     {
-        $request->validate([
-            "first_name" => "required|string|max:255",
-            "last_name" => "required|string|max:255",
-            "email" => "required|email|unique:users,email",
-            "phone_number" => "required|numeric|digits:10",
-            "cafe_name" => "required|string|max:255",
-            "password" => "required|string|min:8"
-        ]);
+        $validated = $request->validated();
+        $validated['cafe_slug'] = Str::slug($validated['cafe_name']);
+        $validated['password'] = Hash::make($validated['password']);
 
-        $user = User::create([
-            "first_name" => $request->first_name,
-            "last_name" => $request->last_name,
-            "email" => $request->email,
-            "phone_number" => $request->phone_number,
-            "cafe_name" => $request->cafe_name,
-            "cafe_slug" => Str::slug($request->cafe_name),
-            "password" => Hash::make($request->password),
-            "profile_photo" => null
-        ]);
+        $user = User::create($validated);
 
         return response()->json($user, 201);
+
     }
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        $user = User::find($id);
+        $validated = $request->validated();
+        $validated['cafe_slug'] = Str::slug($validated['cafe_name']);
+        $validated['password'] = Hash::make($validated['password']);
 
-        if (!$user) {
-            return response()->json(['message' => 'Kullanıcı bulunamadı'], 404);
-        }
-
-        $cafe = $request->input('cafe_name');
-        $user->first_name = $request->input('first_name');
-        $user->last_name = $request->input('last_name');
-        $user->email = $request->input('email');
-        $user->phone_number = $request->input('phone_number');
-        $user->cafe_name = $cafe;
-        $user->cafe_slug = Str::slug($cafe);
-        $user->password = Hash::make($request->password);
-
+        $user->fill($validated);
         $user->save();
-
         return response()->json($user);
     }
-    public function destroy($id)
+    public function destroy(User $user): JsonResponse
     {
-        $user = User::find($id);
-        if (!$user) {
-            return response()->json(['message' => 'Kullanıcı bulunamadı'], 404);
-        }
         $user->delete();
         return response()->json(['message' => 'Kullanıcı başarıyla silindi.']);
-    }
-    public function login()
-    {
-        return view("auth.login");
-    }
-
-    public function loginPost(Request $request)
-    {
-        $request->validate([
-            "email" => "required",
-            "password" => "required",
-        ]);
-
-        $credentials = $request->only("email", "password");
-        if (Auth::attempt($credentials)) {
-            $cafe_slug = Auth::user()->cafe_slug;
-            return redirect()->intended(route("cafe.categories", [
-                'first_name' => $cafe_slug,
-            ]));
-        }
-        return redirect(route("login"))->with("error", "Login failed");
-
-    }
-    public function register()
-    {
-        return view("auth.register");
-    }
-
-    public function registerPost(Request $request)
-    {
-        $request->validate([
-            "first_name" => "required",
-            "last_name" => "required",
-            "email" => "required",
-            "phone_number" => "required",
-            "cafe_name" => "required",
-            "password" => "required"
-        ]);
-
-        $user = User::create([
-            "first_name" => $request->first_name,
-            "last_name" => $request->last_name,
-            "email" => $request->email,
-            "phone_number" => $request->phone_number,
-            "cafe_name" => $request->cafe_name,
-            "cafe_slug" => Str::slug($request->cafe_name),
-            "password" => Hash::make($request->password),
-            "profile_photo" => null
-        ]);
-
-        if ($user->save()) {
-
-            $credentials = $request->only("email", "password");
-
-            if (Auth::attempt($credentials)) {
-
-                $cafe_slug = Auth::user()->cafe_slug;
-
-                return redirect()->intended(route("cafe.categories", [
-                    'first_name' => $cafe_slug,
-                ]));
-            }
-
-            return redirect(route("login"))->with("error", "Login failed");
-        }
-
-        return redirect(route("register"))->with("error", "Failed to create account");
-
-
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('welcome');
-    }
-
-    public function logoutAdmin()
-    {
-
-        Auth::logout();
-        return response()->json([
-            'message' => 'Başarıyla çıkış yapıldı'
-        ], 200);
     }
 
 

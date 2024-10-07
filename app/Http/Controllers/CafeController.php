@@ -7,43 +7,28 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
-
+use Illuminate\Contracts\View\View;
 
 class CafeController extends Controller
 {
-    public function showCategories($user_slug)
+    public function showCategories($cafe_slug): View
     {
-        $user = User::where('cafe_slug', $user_slug)->first();
-        if (!$user) {
-            dd('Böyle bir kullanıcı yok!');
-        }
+        $user = User::where('cafe_slug', $cafe_slug)->first();
         $categories = $user->categories()->latest()->paginate(10);
         return view('dashboard.categories.index', compact('categories', 'user'));
     }
 
-    public function showProducts($user_slug, $category_slug)
+    public function showProducts($cafe_slug, $category_slug): View
     {
-        $user = User::where('cafe_slug', $user_slug)->first();
-        if (!$user) {
-            dd('Böyle bir kullanıcı yok!');
-        }
-
+        $user = User::where('cafe_slug', $cafe_slug)->first();
         $category = Category::where('slug', $category_slug)->first();
-        if (!$category) {
-            dd('Böyle bir kategori yok!');
-        }
-
         $products = $category->products;
-
         return view('dashboard.products.index', compact('products', 'user', 'category'));
     }
 
-    public function showProductDetails($user_slug, $category_slug, $product_slug)
+    public function showProductDetails($cafe_slug, $category_slug, $product_slug): View
     {
         $product = Product::where('slug', $product_slug)->first();
-        if (!$product) {
-            dd('Böyle bir ürün yok!');
-        }
         return view('dashboard.products.show', compact('product'));
     }
 }

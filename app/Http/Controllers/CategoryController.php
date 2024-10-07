@@ -2,47 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCategoryRequest;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $categories = Category::all();
         return response()->json($categories);
     }
 
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'required',
-            'user_id' => 'required|exists:users,id'
-        ]);
-
-        $category = Category::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'image' => $request->image,
-        ]);
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
+        $category = Category::create($validated);
         $category->users()->attach($request->user_id);
         return response()->json($category, 201);
-
     }
 
 
-    public function destroy($id)
+    public function destroy(Category $category): JsonResponse
     {
-        $category = Category::find($id);
-        if (!$category) {
-            return response()->json(['message' => 'Kategori bulunamadı'], 404);
-        }
-
-
         $category->delete();
-
         return response()->json(['message' => 'Kategori başarıyla silindi.']);
-
     }
 }

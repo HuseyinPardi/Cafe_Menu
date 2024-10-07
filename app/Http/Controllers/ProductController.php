@@ -2,104 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
-use App\Models\ProductImage;
+
 class ProductController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $products = Product::all();
         return response()->json($products);
     }
 
-    public function show($id /*Product $product*/)
+    public function show(Product $product): JsonResponse
     {
-        $product = Product::with('images')->find($id); // images ilişkisini ekledik
-
-        if (!$product) {
-            return response()->json(['message' => 'Ürün bulunamadı'], 404);
-        }
-
-        // $product->with('images');
-
+        $product->load('images');
         return response()->json($product);
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'description' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id'
-        ]);
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
 
-        $product = Product::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'description' => $request->description,
-            'price' => $request->price
-        ]);
+        $product = Product::create($validated);
+
         $product->categories()->attach($request->category_id);
+        $product->images()->create(['image_path' => $validated['image_path']]);
+
         return response()->json($product, 201);
     }
 
-    public function storeImage($id, Request $request)
+
+    public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
-        $request->validate([
-            'image_path' => 'required',
-        ]);
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
 
-        ProductImage::create([
-            'product_id' => $id,
-            'image_path' => $request->image_path,
-        ]);
-
-        return response()->json(['message' => 'Resim başarıyla eklendi.'], 201);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Ürün bulunamadı'], 404);
-        }
-
-        $name = $request->input('name');
-        $product->name = $name;
-        $product->slug = Str::slug($name);
-        $product->price = $request->input('price');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-
-
-        if ($request->has('image_paths')) {
-
-            $product->images()->delete();
-
-            foreach ($request->input('image_paths') as $imagePath) {
+        $existingImages = $product->images()->pluck('image_path')->toArray();
+        foreach ($request->input('image_paths') as $imagePath) {
+            if (!in_array($imagePath, $existingImages)) {
                 $product->images()->create(['image_path' => $imagePath]);
             }
         }
-
+        $product->fill($validated);
         $product->save();
 
         return response()->json($product);
     }
 
-    public function destroy($id)
+    public function destroy(Product $product): JsonResponse
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Ürün bulunamadı'], 404);
-        }
-
         $product->delete();
-
         return response()->json(['message' => 'Ürün başarıyla silindi.']);
     }
 }

@@ -1,27 +1,33 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AdminIs;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CafeController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 
 
 
 
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+
+Route::post('/register', [AuthController::class, 'registerPost']);
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+
+Route::post('/login', [AuthController::class, 'loginPost']);
 
 
-Route::get('/register', [UserController::class, 'register'])->name('register');
 
-Route::post('/register', [UserController::class, 'registerPost']);
-
-Route::get('/login', [UserController::class, 'login'])->name('login');
-
-Route::post('/login', [UserController::class, 'loginPost']);
-
-
-Route::view('/', 'welcome')->name('welcome');
+Route::get('/', function () {
+    //Auth::logout();
+    return view('welcome');
+})->name('welcome');
 
 
 
@@ -30,7 +36,7 @@ Route::middleware(['auth', AdminIs::class])->group(function () {
         return view('admin');
     })->where('any', '.*?');
 
-    Route::post('/logout', [UserController::class, 'logoutAdmin']);
+    Route::post('/logout', [AuthController::class, 'logoutAdmin']);
 
 });
 
@@ -47,6 +53,6 @@ Route::middleware("auth")->group(function () {
     Route::get('/{first_name}/{category_name}/{product_name}', [CafeController::class, 'showProductDetails'])->name('cafe.product.details');
 
 
-    Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 });

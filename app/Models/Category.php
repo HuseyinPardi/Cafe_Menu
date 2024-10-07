@@ -19,4 +19,13 @@ class Category extends Model
     {
         return $this->belongsToMany(User::class, 'user_category');
     }
+
+    protected function casts(): array
+    {
+        return [
+            'image' => 'string',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime'
+        ];
+    }
 }

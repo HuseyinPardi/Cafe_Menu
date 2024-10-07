@@ -85,11 +85,6 @@ const addProduct = async () => {
             price: parseFloat(newProduct.value.price),
             description: newProduct.value.description,
             category_id: selectedCategory.value,
-        });
-
-        const productId = response.data.id;
-
-        await axios.post(`/api/products/${productId}/images`, {
             image_path: newProduct.value.image_path,
         });
 

@@ -18,7 +18,7 @@ Products Index
                             <a href="{{route('cafe.product.details', [
                             'first_name' => $user ? $user->cafe_slug : 'default_name' , 
                             'category_name' => $category ? $category->slug : 'default-category',
-                            'product_name' => $product ? $product->slug : 'default-product' ])}}" class="btn btn-primary">see more</a>
+                            'product_name' => $product ? $product->slug : 'default-product'])}}" class="btn btn-primary">see more</a>
                         </div>
                     </div>
                 @endforeach

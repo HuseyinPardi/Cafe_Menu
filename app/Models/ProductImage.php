@@ -14,4 +14,14 @@ class ProductImage extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    protected function casts(): array
+    {
+        return [
+            'product_id' => 'integer',
+            'image_path' => 'string',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime'
+        ];
+    }
 }

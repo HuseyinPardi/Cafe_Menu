@@ -14,10 +14,16 @@ Login Page
                     <div class="form-group">
                         <label for="email">E-posta</label>
                         <input type="email" class="form-control mt-3" id="email" name="email" required placeholder="E-posta adresinizi girin">
+                        @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group mt-3">
                         <label for="password">Şifre</label>
                         <input type="password" class="form-control mt-3" id="password" name="password" required placeholder="Şifrenizi girin">
+                        @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <br>
                     <button type="submit" class="btn btn-success btn-block">Giriş Yap</button>

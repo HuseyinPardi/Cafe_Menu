@@ -20,4 +20,13 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class, 'product_id');
     }
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'float',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
+    }
 }
