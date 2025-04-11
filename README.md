@@ -43,3 +43,6 @@ git clone https://github.com/HuseyinPardi/Cafe_Menu.git
 cd Cafe_Menu
 composer install
 php artisan serve
+npm install
+npm run dev
+
